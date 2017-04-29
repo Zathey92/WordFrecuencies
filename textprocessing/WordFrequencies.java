@@ -9,7 +9,11 @@ public class WordFrequencies {
     }
     public synchronized void addFrequencies(Map<String,Integer> f){
         System.out.println("@"+Thread.currentThread().getName()+": Añadiendo Frecuencia");
-        frequenciesMap.putAll(f);
+        f.forEach((key, value) -> {
+            Integer n =frequenciesMap.get(key);
+            n = (n == null) ? value : (n+value);
+            frequenciesMap.put(key, n);
+        });
         notifyAll();
     }
     /* No es necesario que sea sincronizado(Unico hilo en el momento de ejecución)
